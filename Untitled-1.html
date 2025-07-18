@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>反战 - 和平的呼唤</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
+    /* 重置和基础 */
+    * {
+        box-sizing: border-box;
+    }
+    body, html {
+        margin: 0; padding: 0;
+        height: 100%;
+        font-family: 'Noto Serif SC', serif;
+        background: linear-gradient(to bottom, #a0c8f0, #ffffff);
+        overflow-x: hidden;
+        color: #333;
+        position: relative;
+    }
+    /* 星空背景 */
+    #stars {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        overflow: hidden;
+        z-index: -2;
+    }
+    .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 3s infinite alternate;
+    }
+    @keyframes twinkle {
+        0% {opacity: 0.3;}
+        100% {opacity: 1;}
+    }
+    /* 流星 */
+    .shooting-star {
+        position: absolute;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(-45deg, white, rgba(255,255,255,0));
+        border-radius: 50%;
+        opacity: 0;
+        animation: shooting 4s linear infinite;
+        z-index: -1;
+    }
+    @keyframes shooting {
+        0% {
+            transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(-500px) translateY(500px) rotate(-45deg);
+            opacity: 0;
+        }
+    }
+
+    header {
+        background-color: rgba(46, 139, 87, 0.85);
+        color: white;
+        text-align: center;
+        padding: 2rem 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        position: relative;
+        z-index: 10;
+    }
+    header h1 {
+        margin: 0;
+        font-size: 3rem;
+        letter-spacing: 0.15em;
+        text-shadow: 0 0 8px #2e8b57;
+    }
+    main {
+        max-width: 900px;
+        margin: 3rem auto 5rem;
+        padding: 0 1rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+    }
+    main p {
+        font-size: 1.3rem;
+        line-height: 2;
+        margin-bottom: 3rem;
+        color: #1a3d2f;
+        text-shadow: 0 0 3px #a0c8f0;
+    }
+    /* 和平鸽动画容器 */
+    .peace-dove {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 3rem;
+        animation: float 5s ease-in-out infinite;
+        filter: drop-shadow(0 0 6px #2e8b57);
+    }
+    .peace-dove svg {
+        width: 100%;
+        height: 100%;
+        fill: #2e8b57;
+        transition: fill 0.3s ease;
+        cursor: pointer;
+    }
+    .peace-dove svg:hover {
+        fill: #4caf50;
+        filter: drop-shadow(0 0 10px #4caf50);
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    /* 按钮 */
+    .btn-peace {
+        background-color: #2e8b57;
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        font-size: 1.2rem;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+        box-shadow: 0 4px 12px rgba(46,139,87,0.5);
+    }
+    .btn-peace:hover, .btn-peace:focus {
+        background-color: #3fae63;
+        box-shadow: 0 6px 20px rgba(63,174,99,0.7);
+        outline: none;
+    }
+    /* 和平宣言 */
+    #peaceMessage {
+        display: none;
+        margin-top: 2rem;
+        font-size: 1.3rem;
+        color: #2e8b57;
+        font-weight: 700;
+        animation: fadeIn 1.5s ease forwards;
+        text-shadow: 0 0 5px #4caf50;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    footer {
+        text-align: center;
+        font-size: 1rem;
+        color: #555;
+        padding: 1.5rem 0;
+        border-top: 1px solid #ccc;
+        margin-top: 5rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* 鸽子飞翔路径动画 */
+    .flying-dove {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        top: 80%;
+        left: -80px;
+        fill: #4caf50;
+        filter: drop-shadow(0 0 5px #4caf50);
+        animation: flyAcross 15s linear infinite;
+        z-index: 9;
+        cursor: default;
+    }
+    @keyframes flyAcross {
+        0% {
+            transform: translateX(0) translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        50% {
+            transform: translateX(50vw) translateY(-20vh) rotate(15deg);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateX(110vw) translateY(0) rotate(0deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+    <div id="stars" aria-hidden="true"></div>
+
+    <header>
+        <h1>反战 - 和平的呼唤</h1>
+    </header>
+
+    <main>
+        <div class="peace-dove" aria-label="和平鸽图标" role="img" tabindex="0" title="和平鸽">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                <path d="M32 2c-5 0-9 4-9 9 0 3 2 6 5 7-3 0-6 2-6 5 0 3 3 5 6 5-1 2-1 4-1 6 0 5 4 9 9 9s9-4 9-9-4-9-9-9c-1 0-2 0-3 1 1-2 1-4 1-6 3 0 6-2 6-5 0-3-3-5-6-5 3-1 5-4 5-7 0-5-4-9-9-9z"/>
+            </svg>
+        </div>
+        <p>
+            战争带来的是破坏与痛苦，和平才是人类共同的希望。让我们携手拒绝战争，珍惜生命，守护家园。和平不仅是一种理念，更是一种责任，一种担当。
+        </p>
+        <p>
+            在这个星空下，我们共同呼唤和平，让爱与宽容代替仇恨与暴力，让友谊与合作超越敌意与分歧。让我们的心灵如同和平鸽一样自由飞翔，传递爱与和平的信息。
+        </p>
+        <button class="btn-peace" id="btnShowMessage" aria-controls="peaceMessage" aria-expanded="false">
+            点击显示和平宣言
+        </button>
+        <div id="peaceMessage" role="alert" aria-live="polite">
+            和平不是梦想，而是我们共同努力的目标！让我们携手并肩，共同创造一个没有战争、没有伤痛的世界！
+        </div>
+    </main>
+
+    <!-- 飞翔的和平鸽 -->
+    <svg class="flying-dove" viewBox="0 0 64 64" aria-hidden="true" focusable="false" style="pointer-events:none;">
+        <path d="M32 2c-5 0-9 4-9 9 0 3 2 6 5 7-3 0-6 2-6 5 0 3 3 5 6 5-1 2-1 4-1 6 0 5 4 9 9 9s9-4 9-9-4-9-9-9c-1 0-2 0-3 1 1-2 1-4 1-6 3 0 6-2 6-5 0-3-3-5-6-5 3-1 5-4 5-7 0-5-4-9-9-9z"/>
+    </svg>
+
+    <footer>
+        &copy; 2024 反战和平倡议
+    </footer>
+
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2d4f3e1a6a.mp3?filename=peaceful-piano-ambient-10894.mp3" loop autoplay muted></audio>
+    <button id="musicToggle" aria-label="切换背景音乐播放" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(46,139,87,0.8);
+        border: none;
+        color: white;
+        padding: 0.6rem 1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(46,139,87,0.7);
+        z-index: 20;
+        user-select: none;
+    ">🔈 开启音乐</button>
+
+<script>
+    // 生成星星
+    const starsContainer = document.getElementById('stars');
+    const starCount = 100;
+    for(let i=0; i<starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 2 + 1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        starsContainer.appendChild(star);
+    }
+
+    // 生成流星
+    function createShootingStar() {
+        const shootingStar = document.createElement('div');
+        shootingStar.classList.add('shooting-star');
+        shootingStar.style.top = Math.random() * 50 + '%';
+        shootingStar.style.left = Math.random() * 100 + '%';
+        shootingStar.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        starsContainer.appendChild(shootingStar);
+        setTimeout(() => {
+            shootingStar.remove();
+        }, 4000);
+    }
+    setInterval(createShootingStar, 3000);
+
+    // 和平宣言按钮逻辑
+    const btn = document.getElementById('btnShowMessage');
+    const message = document.getElementById('peaceMessage');
+    btn.addEventListener('click', () => {
+        if (message.style.display === 'block') {
+            message.style.display = 'none';
+            btn.textContent = '点击显示和平宣言';
+            btn.setAttribute('aria-expanded', 'false');
+        } else {
+            message.style.display = 'block';
+            btn.textContent = '隐藏和平宣言';
+            btn.setAttribute('aria-expanded', 'true');
+        }
+    });
+
+    // 背景音乐控制
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    musicToggle.addEventListener('click', () => {
+        if(bgMusic.muted) {
+            bgMusic.muted = false;
+            musicToggle.textContent = '🔊 关闭音乐';
+        } else {
+            bgMusic.muted = true;
+            musicToggle.textContent = '🔈 开启音乐';
+        }
+    });
+
+    // 自动播放音乐提示（部分浏览器限制自动播放）
+    window.addEventListener('load', () => {
+        bgMusic.play().catch(() => {
+            // 用户交互后再播放
+            musicToggle.textContent = '🔈 开启音乐';
+            bgMusic.muted = true;
+        });
+    });
+</script>
+</body>
+</html>

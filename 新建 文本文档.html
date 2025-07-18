@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>时光旅行 | 一场穿越时空的邀约</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        // 配置Tailwind自定义主题
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1', // 主色调：梦幻紫
+                        secondary: '#10b981', // 辅助色：生机绿
+                        dark: '#1e293b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+            .parallax {
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark text-white overflow-x-hidden">
+    <!-- 首屏：时光入口 -->
+    <section class="h-screen relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-primary/30 to-dark/80 z-10"></div>
+            < img src="https://picsum.photos/id/1035/1920/1080" alt="星空背景" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="container mx-auto px-6 z-20 text-center">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold mb-6 opacity-0 transition-opacity duration-1000" id="mainTitle">
+                时光旅行
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.5rem)] max-w-2xl mx-auto mb-10 opacity-0 transition-opacity duration-1000 delay-300" id="subTitle">
+                穿越过去与未来，赴一场时空之约
+            </p >
+            <button class="bg-primary hover:bg-primary/80 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 opacity-0 transition-opacity duration-1000 delay-500 flex items-center mx-auto" id="enterBtn">
+                开启旅程 <<i class="fa fa-arrow-right ml-2"></</i>
+            </button>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
+            <<i class="fa fa-angle-down text-3xl"></</i>
+        </div>
+    </section>
+
+    <!-- 第二屏：过去 -->
+    <section class="h-screen relative flex items-center parallax" style="background-image: url('https://picsum.photos/id/1024/1920/1080')">
+        <div class="absolute inset-0 bg-dark/70 z-0"></div>
+        <div class="container mx-auto px-6 z-10">
+            <div class="max-w-xl" data-scroll>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-6 text-secondary">昨日重现</h2>
+                <p class="text-lg mb-8 leading-relaxed">
+                    那些泛黄的记忆碎片，藏着未说出口的遗憾与温暖。按下暂停键的瞬间，时光为你倒带，回到故事开始的地方。
+                </p >
+                <div class="flex space-x-4">
+                    <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all">
+                        <<i class="fa fa-camera-retro text-3xl text-secondary"></</i>
+                    </div>
+                    <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all">
+                        <<i class="fa fa-book text-3xl text-secondary"></</i>
+                    </div>
+                    <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all">
+                        <<i class="fa fa-music text-3xl text-secondary"></</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第三屏：未来 -->
+    <section class="h-screen relative flex items-center justify-end">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-l from-dark to-primary/20 z-10"></div>
+            < img src="https://picsum.photos/id/1043/1920/1080" alt="未来城市" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="container mx-auto px-6 z-20 max-w-xl" data-scroll>
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-6 text-primary">明日序曲</h2>
+            <p class="text-lg mb-8 leading-relaxed">
+                未知的星图在前方展开，每一个选择都编织着不同的轨迹。踮脚眺望的瞬间，未来正朝你走来。
+            </p >
+            <button class="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium py-3 px-8 rounded-full transition-all duration-300">
+                遇见未来
+            </button>
+        </div>
+    </section>
+
+    <!-- 尾屏：邀约 -->
+    <section class="h-screen relative flex items-center justify-center text-center">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-dark/90 z-10"></div>
+            < img src="https://picsum.photos/id/1015/1920/1080" alt="时光交汇" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="container mx-auto px-6 z-20">
+            <div class="animate-float">
+                <<i class="fa fa-compass text-6xl text-primary mb-8"></</i>
+            </div>
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-6">时空邀请函</h2>
+            <p class="text-lg mb-10 max-w-2xl mx-auto">
+                无论你想回到过去弥补遗憾，还是提前探访未来的模样，这场旅行，只为等你启程。
+            </p >
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-primary hover:bg-primary/80 text-white font-medium py-3 px-8 rounded-full transition-all duration-300">
+                    立即加入
+                </button>
+                <button class="bg-transparent border-2 border-white text-white hover:bg-white/10 font-medium py-3 px-8 rounded-full transition-all duration-300">
+                    了解更多
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 页面加载动画
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('mainTitle').classList.add('opacity-100');
+            }, 300);
+            setTimeout(() => {
+                document.getElementById('subTitle').classList.add('opacity-100');
+            }, 600);
+            setTimeout(() => {
+                document.getElementById('enterBtn').classList.add('opacity-100');
+            }, 900);
+        });
+
+        // 平滑滚动
+        document.getElementById('enterBtn').addEventListener('click', () => {
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-scroll]').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

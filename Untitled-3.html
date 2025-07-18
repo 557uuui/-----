@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>纪念反法西斯胜利80周年</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: "Microsoft YaHei", sans-serif;
+        background-color: #000;
+        color: #fff;
+        overflow-x: hidden;
+        perspective: 1000px;
+        scroll-behavior: smooth;
+    }
+    
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        position: relative;
+    }
+    
+    /* 开场动画 */
+    .opening {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeOut 2s ease-in-out 4s forwards;
+    }
+    
+    .opening-text {
+        font-size: 24px;
+        color: #d4af37;
+        margin-bottom: 30px;
+        opacity: 0;
+        animation: textAppear 1.5s ease-in-out forwards;
+    }
+    
+    .opening-text:nth-child(2) {
+        animation-delay: 1s;
+    }
+    
+    .opening-text:nth-child(3) {
+        animation-delay: 2s;
+    }
+    
+    /* 主页面 */
+    .main-content {
+        width: 100%;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: contentAppear 1s ease-in-out 5s forwards;
+    }
+    
+    /* 标题部分 */
+    .header {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1580130732478-4d03694a6588?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        padding: 0 1rem;
+    }
+    
+    .title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(210, 180, 140, 0.8);
+        margin-bottom: 20px;
+        transform: translateY(50px);
+        opacity: 0;
+        animation: titleAppear 1.5s ease-out 5.5s forwards;
+    }
+    
+    .subtitle {
+        font-size: 1.5rem;
+        color: #d4af37;
+        margin-bottom: 40px;
+        transform: translateY(50px);
+        opacity: 0;
+        animation: titleAppear 1.5s ease-out 6s forwards;
+    }
+    
+    .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        font-size: 1rem;
+        animation: bounce 2s infinite 7s, fadeIn 1s ease-in-out 7s forwards;
+        opacity: 0;
+    }
+    
+    /* 时间轴部分 */
+    .timeline {
+        width: 100%;
+        padding: 80px 0;
+        background-color: #111;
+        position: relative;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(to bottom, #d4af37, transparent);
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+    
+    .timeline-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 50px;
+        color: #d4af37;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .timeline-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .timeline-item {
+        width: 100%;
+        margin-bottom: 80px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.5s ease;
+        z-index: 2;
+    }
+    
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .timeline-item:nth-child(odd) {
+        padding-right: 50%;
+        text-align: right;
+    }
+    
+    .timeline-item:nth-child(even) {
+        padding-left: 50%;
+        text-align: left;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #d4af37;
+        transform: translateX(-50%);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+        z-index: 3;
+    }
+    
+    .timeline-content {
+        padding: 20px;
+        background-color: rgba(17, 17, 17, 0.8);
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        border-left: 3px solid #d4af37;
+        display: inline-block;
+        max-width: 400px;
+    }
+    
+    .timeline-year {
+        font-size: 1.5rem;
+        color: #d4af37;
+        margin-bottom: 10px;
+    }
+    
+    .timeline-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    
+    /* 英雄人物部分 */
+    .heroes {
+        width: 100%;
+        padding: 80px 0;
+        background: url('https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .heroes::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
+    
+    .heroes-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 50px;
+        color: #d4af37;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .heroes-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-card {
+        width: 280px;
+        height: 400px;
+        background-color: rgba(17, 17, 17, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        position: relative;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        opacity: 0;
+        transform: translateY(50px) rotateY(30deg);
+    }
+    
+    .hero-card.visible {
+        opacity: 1;
+        transform: translateY(0) rotateY(0);
+    }
+    
+    .hero-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .hero-info {
+        padding: 20px;
+    }
+    
+    .hero-name {
+        font-size: 1.5rem;
+        color: #d4af37;
+        margin-bottom: 10px;
+    }
+    
+    .hero-desc {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .hero-quote {
+        font-style: italic;
+        color: #aaa;
+        font-size: 0.8rem;
+    }
+    
+    /* 和平祈愿部分 */
+    .peace {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: url('https://images.unsplash.com/photo-1500382018108-8f3c06fd2815?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+        background-size: cover;
+        position: relative;
+        padding: 0 1rem;
+    }
+    
+    .peace::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+    
+    .peace-title {
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .peace-text {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 40px;
+        line-height: 1.8;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .peace-button {
+        padding: 15px 30px;
+        background-color: transparent;
+        color: #d4af37;
+        border: 2px solid #d4af37;
+        border-radius: 50px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+    }
+    
+    .peace-button:hover {
+        background-color: #d4af37;
+        color: #000;
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+    }
+    
+    .peace-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+        transition: all 0.5s ease;
+    }
+    
+    .peace-button:hover::before {
+        left: 100%;
+    }
+    
+    /* 鸽子动画 */
+    .dove {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: url('https://cdn.pixabay.com/photo/2017/01/31/23/42/dove-2028356_960_720.png') no-repeat center center;
+        background-size: contain;
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+        animation: fly 15s linear infinite;
+        z-index: 2;
+    }
+    
+    .dove:nth-child(1) {
+        top: 20%;
+        left: -50px;
+        animation-delay: 0s;
+    }
+    
+    .dove:nth-child(2) {
+        top: 40%;
+        left: -50px;
+        animation-delay: 3s;
+    }
+    
+    .dove:nth-child(3) {
+        top: 60%;
+        left: -50px;
+        animation-delay: 6s;
+    }
+    
+    .dove:nth-child(4) {
+        top: 80%;
+        left: -50px;
+        animation-delay: 9s;
+    }
+    
+    /* 页脚 */
+    .footer {
+        width: 100%;
+        padding: 30px 0;
+        background-color: #000;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    /* 音乐控制 */
+    .music-control {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+    
+    .music-control:hover {
+        background-color: rgba(212, 175, 55, 0.8);
+        transform: scale(1.1);
+    }
+    
+    .music-icon {
+        color: #fff;
+        font-size: 20px;
+    }
+    
+    /* 动画定义 */
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+    
+    @keyframes textAppear {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes contentAppear {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes titleAppear {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0) translateX(-50%);
+        }
+        40% {
+            transform: translateY(-20px) translateX(-50%);
+        }
+        60% {
+            transform: translateY(-10px) translateX(-50%);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    @keyframes fly {
+        0% {
+            transform: translateX(-100px) translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateX(calc(100vw + 100px)) translateY(-50px) rotate(5deg);
+        }
+        100% {
+            transform: translateX(calc(100vw + 100px)) translateY(0) rotate(0deg);
+        }
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .title {
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .timeline::before {
+            left: 20px;
+        }
+        
+        .timeline-item:nth-child(odd),
+        .timeline-item:nth-child(even) {
+            padding: 0 0 0 50px;
+            text-align: left;
+        }
+        
+        .timeline-dot {
+            left: 20px;
+        }
+        
+        .hero-card {
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .heroes-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- 开场动画 -->
+    <div class="opening">
+        <div class="opening-text">铭记历史</div>
+        <div class="opening-text">珍爱和平</div>
+        <div class="opening-text">纪念反法西斯胜利80周年</div>
+    </div>
+    
+    <!-- 主内容 -->
+    <div class="main-content">
+        <!-- 标题部分 -->
+        <section class="header">
+            <h1 class="title">纪念反法西斯胜利80周年</h1>
+            <h2 class="subtitle">铭记历史 · 缅怀先烈 · 珍爱和平 · 开创未来</h2>
+            <div class="scroll-down">向下滑动</div>
+        </section>
+        
+        <!-- 时间轴部分 -->
+        <section class="timeline">
+            <h2 class="timeline-title">历史时刻</h2>
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">1939年</h3>
+                        <p class="timeline-desc">第二次世界大战爆发，法西斯势力在欧洲和亚洲迅速扩张，给世界各国人民带来深重灾难。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">1941年</h3>
+                        <p class="timeline-desc">苏联卫国战争开始，中国人民抗日战争进入战略相持阶段，世界反法西斯同盟逐步形成。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">1942年</h3>
+                        <p class="timeline-desc">斯大林格勒战役成为二战转折点，盟军在北非战场取得胜利，反法西斯战争形势开始逆转。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">1944年</h3>
+                        <p class="timeline-desc">诺曼底登陆开辟欧洲第二战场，苏联红军发动十次斯大林突击，法西斯德国陷入两线作战。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">1945年</h3>
+                        <p class="timeline-desc">反法西斯战争胜利，世界迎来和平曙光，铭记历史，珍爱和平。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 英雄人物部分 -->
+        <section class="heroes">
+            <h2 class="heroes-title">英雄人物</h2>
+            <div class="heroes-container">
+                <div class="hero-card">
+                    <img class="hero-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Winston_Churchill_1942.jpg/440px-Winston_Churchill_1942.jpg" alt="温斯顿·丘吉尔" />
+                    <div class="hero-info">
+                        <h3 class="hero-name">温斯顿·丘吉尔</h3>
+                        <p class="hero-desc">英国首相，二战期间坚定领导英国抵抗法西斯侵略。</p>
+                        <p class="hero-quote">“我们将战斗到底。”</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <img class="hero-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Franklin_D_Roosevelt_-_NARA_-_196715.tif/lossy-page1-440px-Franklin_D_Roosevelt_-_NARA_-_196715.tif.jpg" alt="富兰克林·罗斯福" />
+                    <div class="hero-info">
+                        <h3 class="hero-name">富兰克林·罗斯福</h3>
+                        <p class="hero-desc">美国总统，领导美国加入反法西斯联盟，推动二战胜利。</p>
+                        <p class="hero-quote">“唯一值得恐惧的就是恐惧本身。”</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <img class="hero-image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Joseph_Stalin_1942.jpg/440px-Joseph_Stalin_1942.jpg" alt="约瑟夫·斯大林" />
+                    <div class="hero-info">
+                        <h3 class="hero-name">约瑟夫·斯大林</h3>
+                        <p class="hero-desc">苏联领导人，指挥苏军在东线对抗法西斯德国。</p>
+                        <p class="hero-quote">“胜利属于最坚强的人。”</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 和平祈愿部分 -->
+        <section class="peace">
+            <h2 class="peace-title">和平的祈愿</h2>
+            <p class="peace-text">让我们铭记历史，缅怀先烈，珍爱和平，携手共创美好未来。</p>
+            <button class="peace-button" id="peaceBtn">点击显示和平宣言</button>
+            <p class="peace-text" id="peaceMessage" style="display:none; margin-top:20px; color:#d4af37; font-weight:bold;">
+                和平不是梦想，而是我们共同努力的目标！
+            </p>
+            <div class="dove"></div>
+            <div class="dove"></div>
+            <div class="dove"></div>
+            <div class="dove"></div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            &copy; 2024 纪念反法西斯胜利80周年
+        </footer>
+    </div>
+    
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/23/audio_2d4f3e1a6a.mp3?filename=peaceful-piano-ambient-10894.mp3" loop autoplay muted></audio>
+    <div class="music-control" id="musicControl" aria-label="切换背景音乐播放" role="button" tabindex="0">
+        <span class="music-icon">🔈</span>
+    </div>
+    
+    <script>
+        // 页面加载动画隐藏
+        window.addEventListener('load', () => {
+            const opening = document.querySelector('.opening');
+            opening.style.opacity = '0';
+            setTimeout(() => opening.style.display = 'none', 2000);
+        });
+
+        // 时间轴和英雄卡片滚动动画
+        function revealOnScroll() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const heroCards = document.querySelectorAll('.hero-card');
+            const windowHeight = window.innerHeight;
+
+            timelineItems.forEach(item => {
+                const top = item.getBoundingClientRect().top;
+                if(top < windowHeight - 100) {
+                    item.classList.add('visible');
+                }
+            });
+
+            heroCards.forEach(card => {
+                const top = card.getBoundingClientRect().top;
+                if(top < windowHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // 和平宣言按钮事件
+        const peaceBtn = document.getElementById('peaceBtn');
+        const peaceMessage = document.getElementById('peaceMessage');
+        peaceBtn.addEventListener('click', () => {
+            if(peaceMessage.style.display === 'none') {
+                peaceMessage.style.display = 'block';
+                peaceBtn.textContent = '隐藏和平宣言';
+            } else {
+                peaceMessage.style.display = 'none';
+                peaceBtn.textContent = '点击显示和平宣言';
+            }
+        });
+
+        // 背景音乐控制
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = musicControl.querySelector('.music-icon');
+
+        function toggleMusic() {
+            if(bgMusic.muted) {
+                bgMusic.muted = false;
+                musicIcon.textContent = '🔊';
+            } else {
+                bgMusic.muted = true;
+                musicIcon.textContent = '🔈';
+            }
+        }
+        musicControl.addEventListener('click', toggleMusic);
+        musicControl.addEventListener('keydown', e => {
+            if(e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMusic();
+            }
+        });
+    </script>
+</body>
+</html>
+
